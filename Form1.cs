@@ -25,6 +25,11 @@ namespace AnalogHodiny
             pictureBox1.Paint += new PaintEventHandler(DrawClock);
         }
 
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            pictureBox1.Invalidate(); // Překreslení PictureBoxu
+        }
+
         private void DrawClock(object sender, PaintEventArgs e)
         {
             Graphics graphics = e.Graphics;
@@ -35,6 +40,15 @@ namespace AnalogHodiny
             // Nastavení středu hodin
             int centerX = rectangle.X + rectangle.Width / 2;
             int centerY = rectangle.Y + rectangle.Height / 2;
+
+            // Vykreslení ciferníku
+            for (int i = 1; i <= 12; i++)
+            {
+                double angle = (i * 30) * Math.PI / 180;
+                int x = (int)(centerX + (rectangle.Width / 2 - 25) * Math.Sin(angle));
+                int y = (int)(centerY - (rectangle.Height / 2 - 25) * Math.Cos(angle));
+                graphics.DrawString(i.ToString(), Font, Brushes.Black, new PointF(x, y));
+            }
 
             // Nastavení délky ruček hodin
             int secondHandLength = 70;
@@ -61,15 +75,6 @@ namespace AnalogHodiny
             int hourHandX = (int)(centerX + hourHandLength * Math.Sin(hourAngle * (Math.PI / 180)));
             int hourHandY = (int)(centerY - hourHandLength * Math.Cos(hourAngle * (Math.PI / 180)));
             graphics.DrawLine(pen, centerX, centerY, hourHandX, hourHandY);
-        }
-
-        private void timer_Tick(object sender, EventArgs e)
-        {
-            pictureBox1.Invalidate(); // Překreslení PictureBoxu
-        }
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }
