@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Drawing.Drawing2D;
 
 namespace AnalogHodiny
 {
@@ -52,6 +53,8 @@ namespace AnalogHodiny
             int centerX = rectX + rectSize / 2;
             int centerY = rectY + rectSize / 2;
 
+            graphics.SmoothingMode = SmoothingMode.AntiAlias;
+
             for (int i = 1; i <= 60; i++)
             {
                 double angle = (i * 6) * Math.PI / 180;
@@ -93,7 +96,7 @@ namespace AnalogHodiny
             int secondAngle = time.Second * 6;
             int secondHandX = (int)(centerX + secondHandLength * Math.Sin(secondAngle * (Math.PI / 180)));
             int secondHandY = (int)(centerY - secondHandLength * Math.Cos(secondAngle * (Math.PI / 180)));
-            graphics.DrawLine(pen, centerX, centerY, secondHandX, secondHandY);
+            graphics.DrawLine(new Pen(Brushes.Red), centerX, centerY, secondHandX, secondHandY);
 
             // Vykreslení minutové ručičky
             int minuteAngle = time.Minute * 6;
